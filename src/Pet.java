@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,9 +11,8 @@ public class Pet {
     private int hygiene;
     private boolean life = true;
     private int countActions;
-    private int dayLimits;
     private int editNeed;
-    private int sickRandomNumb = random.nextInt(101);
+    private int sickRandomNumb;
     private int actionsLimit = 6;
 
     public Pet(int food, int water, int sleep, int mood, int health, int hygiene) {
@@ -27,17 +25,11 @@ public class Pet {
         this.life = true;
     }
 
-    public int getCountActions() {
-        return countActions = 0;
+
+    public void increaseCountActions() {
+        countActions++;
     }
 
-    public int increaseCountActions() {
-        return countActions++;
-    }
-
-    public void getDayLimits() {
-        dayLimits = 5;
-    }
 
     public void nextDayCheck() {
         if (life = true) {
@@ -58,8 +50,11 @@ public class Pet {
             }
         }
     }
-    public void showNextDayNotification(){
-        System.out.println("Новый день начался!");
+
+    public void showNextDayNotification() {
+        if (countActions==5) {
+            System.out.println("Новый день начался!");
+        }
     }
 
     public void showActionsLimitOutput() {
@@ -74,44 +69,27 @@ public class Pet {
         return life;
     }
 
-    public int getFood() {
-        return food;
-    }
-
-    public void screenClean() {
-        for (int i = 0; i < 3; i++) {
-            System.out.println();
-        }
-    }
-
     public void showNeedIncreased(String msg) {
         System.out.println(msg + " увеличена на " + editNeed);
         System.out.println();
     }
 
-    public void setFoodBorders() {
+    public void increaseFood() {
         editNeed = random.nextInt(26);
         food += editNeed;
         countActions++;
 
     }
 
-    public int getWater() {
-        return water;
-    }
 
-    public void setWaterBorders() {
+    public void increaseWater() {
         editNeed = random.nextInt(26);
         water += editNeed;
         countActions++;
 
     }
 
-    public int getSleep() {
-        return sleep;
-    }
-
-    public void setSleepBorders() {
+    public void increaseSleep() {
         editNeed = random.nextInt(26);
         sleep += editNeed;
         countActions++;
@@ -119,28 +97,29 @@ public class Pet {
     }
 
     public void getSick() {
-        if (sickRandomNumb > 80) {
-            health -= 10;
-            System.out.println("Ваш питомец болеет.");
-        } else {
-
+        sickRandomNumb = random.nextInt(101);
+        if (countActions > 1) {
+            if (sickRandomNumb > 80) {
+                health -= 10;
+                System.out.println("Ваш питомец заболел.");
+            }
         }
     }
 
-    public void setHealthBorders() {
+    public void increaseHealth() {
         editNeed = random.nextInt(26);
         health += editNeed;
         countActions++;
 
     }
 
-    public void setMoodBorders() {
+    public void increaseMood() {
         editNeed = random.nextInt(26);
         mood += editNeed;
         countActions++;
     }
 
-    public void setHygieneBorders() {
+    public void increaseHygiene() {
         editNeed = random.nextInt(26);
         hygiene += editNeed;
         countActions++;
@@ -225,37 +204,5 @@ public class Pet {
         System.out.println("ГИГИЕНА: " + hygiene + "\t\tЗДОРОВЬЕ: " + health + "\tНАСТРОЕНИЕ: " + mood);
     }
 
-    public void printMenu() {
-        System.out.println("-".repeat(68));
-        System.out.println("1. Покормить" + "\t2. Попоить" + "\t\t3. Уложить спать" + "\t4. Помыть");
-        System.out.println("5. Полечить" + "\t\t6. Поиграть" + "\t\t7. Ждать" + "\t\t\t0. Выйти из игры");
-
-    }
-
-    static int inputInt(String message, int min, int max) {
-        boolean isValidInput;
-        int output = 0;
-        do {
-            try {
-                isValidInput = true;
-                Scanner scanner = new Scanner(System.in);
-
-                System.out.print(message);
-                output = scanner.nextInt();
-
-                if (output < min || output > max) {
-                    System.out.println("Ошибка ввода. Вы вышли за границы диапазона от " + min + " до " + max);
-                    throw new Exception();
-                }
-
-            } catch (Exception e) {
-                isValidInput = false;
-                System.out.println("Ошибка ввода. Пожалуйста повторите ввод");
-            }
-
-        } while (isValidInput == false);
-
-        return output;
-    }
 }
 
